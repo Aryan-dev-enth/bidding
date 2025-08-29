@@ -83,8 +83,8 @@ export default function ModernPlayerSlideshow() {
   // safety
   if (!players || players.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-emerald-900">
-        <div className="text-white animate-pulse text-xl">Loading players...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-muted animate-pulse text-lg">Loading players...</div>
       </div>
     );
   }
@@ -195,91 +195,49 @@ export default function ModernPlayerSlideshow() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-6">
-     <div className="absolute inset-0 -z-10">
-  {/* Background image from public folder */}
-  <div
-    className="w-full h-full bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: `url("/bg.jpg")`, // make sure bg.png is in public folder
-    }}
-  />
-  {/* Gradient overlay */}
-  <div className="absolute inset-0 bg-gradient-to-br from-green-900/60 via-green-800/50 to-emerald-900/60"></div>
-</div>
-
-
-      {/* Stadium lights effect */}
-      <div className="absolute top-0 left-1/4 w-40 h-40 bg-yellow-300/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute top-0 right-1/4 w-40 h-40 bg-yellow-300/10 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
-
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div
-        className={`relative max-w-7xl w-full bg-black/50 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform duration-300 ${
-          isTransitioning ? "scale-95 opacity-60" : "scale-100 opacity-100"
+        className={`relative max-w-6xl w-full card overflow-hidden transition-transform duration-200 ${
+          isTransitioning ? "scale-98 opacity-90" : "scale-100 opacity-100"
         }`}
       >
         {/* Player Name Header with Navigation */}
-        <div className="text-center py-6 bg-gradient-to-r from-yellow-400/30 via-yellow-300/30 to-yellow-400/30 border-b border-white/20 backdrop-blur-sm">
-          <div className="flex items-center justify-between max-w-5xl mx-auto px-6">
-            <button
-              onClick={prev}
-              className="group flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-sm px-5 py-3 rounded-full border border-white/30 transition-all duration-300 hover:scale-105"
-            >
-              <ChevronLeft size={20} className="text-white group-hover:text-yellow-400" />
-              <span className="text-sm font-medium text-white group-hover:text-yellow-400">Previous</span>
-            </button>
-            
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="text-sm font-medium text-yellow-200 tracking-wider">
-                  PLAYER {index + 1} OF {players.length}
-                </div>
-                
-                {/* Jump to Player Button */}
-                <button
-                  onClick={() => setShowJumpInput(!showJumpInput)}
-                  className="group bg-white/10 hover:bg-white/20 p-2 rounded-full border border-white/30 transition-all duration-300"
-                  title="Jump to player"
-                >
-                  <Search size={16} className="text-white group-hover:text-yellow-400" />
-                </button>
-              </div>
-
-              {/* Jump to Player Input */}
-              {showJumpInput && (
-                <div className="flex items-center gap-2 mb-3 bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                  <input
-                    type="number"
-                    value={jumpToPlayer}
-                    onChange={(e) => setJumpToPlayer(e.target.value)}
-                    placeholder={`1-${players.length}`}
-                    className="w-20 bg-transparent text-white text-center text-sm placeholder-gray-400 outline-none"
-                    min="1"
-                    max={players.length}
-                    onKeyPress={(e) => e.key === 'Enter' && jumpToPlayerNumber()}
-                  />
-                  <button
-                    onClick={jumpToPlayerNumber}
-                    className="text-yellow-400 hover:text-yellow-300 text-sm font-medium"
-                  >
-                    Go
-                  </button>
-                </div>
-              )}
-              
-              <h1 className="text-4xl lg:text-6xl font-black bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent tracking-tight drop-shadow-lg">
-                {player.name}
-              </h1>
+        <div className="px-8 py-6 border-b">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button onClick={prev} className="btn-primary" title="Previous">
+                <ChevronLeft size={16} />
+              </button>
+              <div className="text-sm text-muted">PLAYER {index + 1} / {players.length}</div>
             </div>
-            
-            <button
-              onClick={next}
-              className="group flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-sm px-5 py-3 rounded-full border border-white/30 transition-all duration-300 hover:scale-105"
-            >
-              <span className="text-sm font-medium text-white group-hover:text-yellow-400">Next</span>
-              <ChevronRight size={20} className="text-white group-hover:text-yellow-400" />
-            </button>
+
+            <h1 className="text-2xl font-semibold">{player.name}</h1>
+
+            <div className="flex items-center gap-3">
+              <button onClick={() => setShowJumpInput(!showJumpInput)} className="text-muted">
+                <Search size={18} />
+              </button>
+              <button onClick={next} className="btn-primary" title="Next">
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
+
+          {showJumpInput && (
+            <div className="mt-3 flex items-center gap-2">
+              <input
+                type="number"
+                value={jumpToPlayer}
+                onChange={(e) => setJumpToPlayer(e.target.value)}
+                placeholder={`1-${players.length}`}
+                className="w-24 px-3 py-2 border rounded-md"
+                min="1"
+                max={players.length}
+                onKeyPress={(e) => e.key === 'Enter' && jumpToPlayerNumber()}
+              />
+              <button onClick={jumpToPlayerNumber} className="btn-primary">Go</button>
+            </div>
+          )}
         </div>
 
         {/* Header */}
@@ -287,20 +245,8 @@ export default function ModernPlayerSlideshow() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
               {nationLogo ? (
-                <Image
-                  src={nationLogo}
-                  alt={`${player.name} nation`}
-                  width={44}
-                  height={32}
-                  quality={100}
-                  className="rounded shadow-lg border border-white/20"
-                />
-              ) : (
-                <div className="w-11 h-8 bg-gray-600 rounded flex items-center justify-center border border-white/20">
-                  <span className="text-xs text-gray-300">🏳️</span>
-                </div>
-              )}
-              
+                <Image src={nationLogo} alt={`${player.name} nation`} width={40} height={24} className="rounded" />
+              ) : null}
               {teamLogo ? (
                 <Image
                   src={teamLogo}
@@ -322,9 +268,9 @@ export default function ModernPlayerSlideshow() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 backdrop-blur-sm px-8 py-4 rounded-2xl border border-yellow-400/40 shadow-xl">
-            <div className="text-sm font-medium text-yellow-200 uppercase tracking-wider text-center">Overall Rating</div>
-            <div className="text-4xl font-black text-yellow-400 text-center">{player.ovr}</div>
+          <div className="px-6 py-3 text-center card">
+            <div className="text-sm text-muted uppercase tracking-wide">Overall</div>
+            <div className="text-2xl font-bold">{player.ovr}</div>
           </div>
         </div>
 
@@ -332,7 +278,7 @@ export default function ModernPlayerSlideshow() {
         <div className="flex flex-col lg:flex-row items-start gap-8 px-8 pb-8">
           {/* left: image & basic */}
           <div className="flex flex-col items-center w-full lg:w-1/3">
-            <div className="relative w-64 h-64 rounded-2xl bg-gradient-to-br from-green-500/30 via-emerald-500/30 to-green-600/30 border-2 border-white/30 flex items-center justify-center shadow-2xl backdrop-blur-sm">
+            <div className="relative w-64 h-64 rounded-xl card flex items-center justify-center">
               {headshot ? (
                 <Image
                   src={headshot}
@@ -364,131 +310,86 @@ export default function ModernPlayerSlideshow() {
               ))}
             </div>
 
-            <div className="mt-6 bg-gradient-to-r from-green-600/40 to-emerald-600/40 backdrop-blur-sm px-8 py-5 rounded-2xl text-center border-2 border-green-400/40 shadow-xl">
-              <div className="text-sm font-bold text-green-200 uppercase tracking-wider">Base Price (INR)</div>
-              <div className="text-white font-black text-3xl mt-1">₹{player.basePrice || "N/A"} Cr</div>
+            <div className="mt-6 px-6 py-4 card text-center">
+              <div className="text-sm text-muted uppercase tracking-wide">Base Price</div>
+              <div className="text-lg font-bold mt-1">₹{player.basePrice || "N/A"} Cr</div>
             </div>
 
             {/* Player Details */}
             <div className="mt-6 grid grid-cols-2 gap-4 w-full max-w-sm">
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-4 text-center border border-white/30">
-                <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Age</div>
-                <div className="text-xl font-bold text-white">{player.age || "N/A"}</div>
+              <div className="p-4 card text-center">
+                <div className="text-xs text-muted uppercase tracking-wide">Age</div>
+                <div className="text-lg font-semibold">{player.age || "N/A"}</div>
               </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-4 text-center border border-white/30">
-                <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Height</div>
-                <div className="text-xl font-bold text-white">{player.height || "N/A"}</div>
+              <div className="p-4 card text-center">
+                <div className="text-xs text-muted uppercase tracking-wide">Height</div>
+                <div className="text-lg font-semibold">{player.height || "N/A"}</div>
               </div>
             </div>
           </div>
 
           {/* right: stats */}
-          <div className="flex-1 space-y-8 w-full">
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
-              <StatCircle label="PACE" value={stats.pac} Icon={Zap} idx={0} />
-              <StatCircle label="SHOOT" value={stats.sho} Icon={Target} idx={1} />
-              <StatCircle label="PASS" value={stats.pas} Icon={TrendingUp} idx={2} />
-              <StatCircle label="DRIBBLE" value={stats.dri} Icon={Star} idx={3} />
-              <StatCircle label="DEFEND" value={stats.def} Icon={Shield} idx={4} />
-              <StatCircle label="PHYSICAL" value={stats.phy} Icon={Trophy} idx={5} />
+          <div className="flex-1 space-y-6 w-full">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+              {/* Simplified small stat badges */}
+              {
+                [["PACE", stats.pac],["SHOOT", stats.sho],["PASS", stats.pas],["DRIBBLE", stats.dri],["DEFEND", stats.def],["PHYSICAL", stats.phy]].map(([label, val], i) => (
+                <div key={i} className="p-3 card text-center">
+                  <div className="text-xs text-muted uppercase">{label}</div>
+                  <div className="text-lg font-semibold">{val || 0}</div>
+                </div>
+              ))
+              }
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 border border-white/30 text-center hover:bg-white/20 transition-all duration-300">
-                <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">Market Value</div>
-                <div className="text-white font-bold text-lg mt-1">{player.value || "N/A"}</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 border border-white/30 text-center hover:bg-white/20 transition-all duration-300">
-                <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">Weekly Wage</div>
-                <div className="text-white font-bold text-lg mt-1">{player.wage || "N/A"}</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 border border-white/30 text-center hover:bg-white/20 transition-all duration-300">
-                <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">Weak Foot</div>
-                <div className="text-white font-bold text-lg mt-1">{player.weak_foot || "N/A"}</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 border border-white/30 text-center hover:bg-white/20 transition-all duration-300">
-                <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">Skill Moves</div>
-                <div className="text-white font-bold text-lg mt-1">{player.skill_moves || "N/A"}</div>
-              </div>
+              {[ ["Market Value", player.value], ["Weekly Wage", player.wage], ["Weak Foot", player.weak_foot], ["Skill Moves", player.skill_moves] ].map(([label, val], i) => (
+                <div key={i} className="p-4 card text-center">
+                  <div className="text-xs text-muted uppercase">{label}</div>
+                  <div className="mt-1 font-medium">{val || "N/A"}</div>
+                </div>
+              ))}
             </div>
 
-            <div className="flex gap-6 justify-center">
-              <div className="bg-gradient-to-r from-blue-500/30 to-cyan-500/30 backdrop-blur-sm px-8 py-5 rounded-xl text-center border border-blue-400/40 hover:from-blue-500/40 hover:to-cyan-500/40 transition-all duration-300">
-                <div className="text-sm font-medium text-blue-300 uppercase tracking-wide">Attack Work Rate</div>
-                <div className="text-white font-bold text-lg mt-1">{player.attacking_workrate || "N/A"}</div>
+            <div className="flex gap-4 justify-center">
+              <div className="p-4 card text-center">
+                <div className="text-xs text-muted uppercase">Attack Work Rate</div>
+                <div className="font-medium">{player.attacking_workrate || "N/A"}</div>
               </div>
-              <div className="bg-gradient-to-r from-red-500/30 to-pink-500/30 backdrop-blur-sm px-8 py-5 rounded-xl text-center border border-red-400/40 hover:from-red-500/40 hover:to-pink-500/40 transition-all duration-300">
-                <div className="text-sm font-medium text-red-300 uppercase tracking-wide">Defense Work Rate</div>
-                <div className="text-white font-bold text-lg mt-1">{player.defensive_workrate || "N/A"}</div>
+              <div className="p-4 card text-center">
+                <div className="text-xs text-muted uppercase">Defense Work Rate</div>
+                <div className="font-medium">{player.defensive_workrate || "N/A"}</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Side navigation buttons - now more subtle */}
+        {/* Simple side nav buttons */}
         <div className="absolute left-4 top-1/2 -translate-y-1/2">
-          <button
-            onClick={prev}
-            className="group bg-black/40 hover:bg-black/60 backdrop-blur-sm p-3 rounded-full border border-white/20 transition-all duration-300 hover:scale-105 opacity-60 hover:opacity-100"
-            disabled={players.length <= 1}
-          >
-            <ChevronLeft size={24} className="text-white group-hover:text-yellow-400" />
+          <button onClick={prev} className="p-2 card" disabled={players.length <= 1}>
+            <ChevronLeft size={20} />
           </button>
         </div>
 
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <button
-            onClick={next}
-            className="group bg-black/40 hover:bg-black/60 backdrop-blur-sm p-3 rounded-full border border-white/20 transition-all duration-300 hover:scale-105 opacity-60 hover:opacity-100"
-            disabled={players.length <= 1}
-          >
-            <ChevronRight size={24} className="text-white group-hover:text-yellow-400" />
+          <button onClick={next} className="p-2 card" disabled={players.length <= 1}>
+            <ChevronRight size={20} />
           </button>
         </div>
 
-        {/* Enhanced Progress Navigation */}
+        {/* Simple pagination dots */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-          <div className="bg-black/50 backdrop-blur-md rounded-2xl px-8 py-4 border border-white/30 shadow-xl">
-            <div className="flex items-center gap-6">
-              <button
-                onClick={prev}
-                className="group p-2 rounded-full hover:bg-white/15 transition-all duration-200"
-                disabled={players.length <= 1}
-              >
-                <ChevronLeft size={18} className="text-white group-hover:text-yellow-400" />
-              </button>
-              
-              <div className="flex gap-2 max-w-md overflow-hidden">
-                {players.slice(Math.max(0, index - 5), Math.min(players.length, index + 6)).map((_, i) => {
-                  const actualIndex = Math.max(0, index - 5) + i;
-                  return (
-                    <button
-                      key={actualIndex}
-                      className={`h-3 rounded-full transition-all duration-300 hover:scale-110 ${
-                        actualIndex === index 
-                          ? "bg-yellow-400 w-10 shadow-lg" 
-                          : "bg-white/40 w-3 hover:bg-white/60"
-                      }`}
-                      onClick={() => setIndex(actualIndex)}
-                    />
-                  );
-                })}
-              </div>
-              
-              <button
-                onClick={next}
-                className="group p-2 rounded-full hover:bg-white/15 transition-all duration-200"
-                disabled={players.length <= 1}
-              >
-                <ChevronRight size={18} className="text-white group-hover:text-yellow-400" />
-              </button>
-            </div>
-            
-            <div className="text-center mt-3">
-              <span className="text-sm font-bold text-white tracking-wider">
-                {index + 1} / {players.length}
-              </span>
-            </div>
+          <div className="flex items-center gap-2">
+            {players.slice(Math.max(0, index - 5), Math.min(players.length, index + 6)).map((_, i) => {
+              const actualIndex = Math.max(0, index - 5) + i;
+              return (
+                <button
+                  key={actualIndex}
+                  className={`h-2 rounded-full transition-all duration-200 ${actualIndex === index ? 'w-8 bg-blue-600' : 'w-2 bg-gray-300'}`}
+                  onClick={() => setIndex(actualIndex)}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
