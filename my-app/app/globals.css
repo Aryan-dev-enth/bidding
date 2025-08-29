@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root{
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #2563eb; /* blue */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*{box-sizing:border-box}
+
+html,body,#root{height:100%}
+
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base helpers used by the page */
+.card{
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.08);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.btn-primary{
+  background: linear-gradient(90deg,var(--accent),#1e40af);
+  color: white;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+}
+
+.text-muted{color:var(--muted)}
+
+/* small responsive tweaks */
+@media (max-width:768px){
+  h1{font-size:1.4rem}
 }
